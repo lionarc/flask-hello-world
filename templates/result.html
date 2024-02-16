@@ -17,7 +17,7 @@
     </form>
     <script>
         // Add your JavaScript code for the result page here
-        var audio = new Audio("static/Moiré - Circuit 8.mp3");
+        var audio = new Audio("{{ song_path }}");
         var isPlaying = false;
 
         function playAudio() {
@@ -34,7 +34,7 @@
         // Event listener for key press
         document.addEventListener("keydown", function(event) {
             // Check if the pressed key is "p" and the audio is not already playing
-            if (event.key === "p" && !isPlaying) {
+            if (event.key === "a" && !isPlaying) {
                 playAudio();
             }
         });
@@ -42,7 +42,7 @@
         // Event listener for key release
         document.addEventListener("keyup", function(event) {
             // Check if the released key is "p" and the audio is playing
-            if (event.key === "p" && isPlaying) {
+            if (event.key === "a" && isPlaying) {
                 stopAudio();
             }    
         });
@@ -54,4 +54,5 @@
     </script>
 </body>
 </html>
+
 

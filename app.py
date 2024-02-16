@@ -27,6 +27,15 @@ answers = [
     ["Popcorn", "Potato chips", "Nachos", "Chocolate", "Trail mix"],
     ["Pizza", "Mac and cheese", "Fried chicken", "Grilled cheese", "Pasta"]
 ]
+# Define the songs and their paths
+songs = {
+    '100': "static/Die Eine.mp3",
+    '90': "static/Every Breath You Take.mp3",
+    '80': "static/Ben E King Stand By Me Lyrics.mp3",
+    '70': "static/Vom selben Stern Radio Edit.mp3",
+    '60': "static/Serge Gainsbourg & Jane Birkin - Je t'aime... moi non plus_Original videoclip (Fontana 1969).mp3",
+    'default': "static/Tina Turner What s Love Got To Do With It Lyrics.mp3"
+}
 @app.route('/')
 def start_screen():
     return render_template('start_screen.html')
@@ -92,7 +101,7 @@ def result_person2():
         else:
             result = "Sorry, you have less than 50% in common."
         
-        return render_template('result.html', person1_data=person1_data, person2_data=person2_data, match_percentage=match_percentage, source='person2')
+        return render_template('result.html', person1_data=person1_data, person2_data=person2_data, match_percentage=match_percentage, song_path=get_song_path(match_percentage), source='person2')
     else:
         return render_template('waiting_screen.html')
     
@@ -133,6 +142,20 @@ def calculate_match_percentage(person1_data, person2_data):
     total_questions = len(questions)
     match_count = sum(1 for q in questions if person1_data.get(q) == person2_data.get(q))
     return (match_count / total_questions) * 100
+
+def get_song_path(match_percentage):
+    if match_percentage >= 100:
+        return songs['100']
+    elif match_percentage >= 90:
+        return songs['90']
+    elif match_percentage >= 80:
+        return songs['80']
+    elif match_percentage >= 70:
+        return songs['70']
+    elif match_percentage >= 60:
+        return songs['60']
+    else:
+        return songs['default']
 
 if __name__ == '__main__':
     # Run the Flask application
