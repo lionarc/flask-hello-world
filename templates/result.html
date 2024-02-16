@@ -9,6 +9,7 @@
 <body>
     <h2>Match Percentage: {{ match_percentage }}%</h2>
     <p>{{ result }}</p>
+    <input type="password" id="hiddenInput" style="opacity: 0; position: absolute; top: -9999px;">
     <!-- Button to refresh the process and clear stored data -->
     <form action="{{ url_for('reset') }}" method="get">
         <input type="hidden" name="source" value="{{ source }}">
@@ -43,8 +44,13 @@
             // Check if the released key is "p" and the audio is playing
             if (event.key === "p" && isPlaying) {
                 stopAudio();
-            }
+            }    
         });
+
+          // Focus on the hidden input field when the page is loaded
+          window.onload = function() {
+            document.getElementById("hiddenInput").focus();
+        };
     </script>
 </body>
 </html>
