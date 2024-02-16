@@ -4,22 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Questionnaire</title>
+    <link rel="stylesheet" href="static/styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
     <h1>Questionnaire</h1>
     <form action="{{ submit_route }}" method="post">
         {% for question in questions %}
-            <p>{{ question }}</p>
-            {% for answer in answers[loop.index0] %}
-                <input type="radio" id="{{ answer }}" name="{{ question }}" value="{{ answer }}" required>
-                <label for="{{ answer }}">{{ answer }}</label><br>
-            {% endfor %}
-            <br>
+            <div class="question">
+                <p>{{ question }}</p>
+                <div class="answers">
+                    {% for answer in answers[loop.index0] %}
+                        <label class="answer-label" for="{{ answer }}">
+                            <input type="radio" id="{{ answer }}" name="{{ question }}" value="{{ answer }}" required>
+                            <div class="answer-field">{{ answer }}</div>
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
         {% endfor %}
         <button type="submit">Submit</button>
     </form>
 </body>
 </html>
+
 
 
 
