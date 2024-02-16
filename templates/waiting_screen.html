@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Waiting Screen</title>
+    <link rel="stylesheet" href="static/styles.css"> <!-- Link to your CSS file -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,5 +25,9 @@
     <div class="container">
         <h2>Waiting for the other person to submit their data...</h2>
     </div>
+    <form action="{{ url_for('waiting_screen') }}" method="GET">
+        <input type="hidden" name="source" value="{{ request.args.get('source') }}">
+        <button type="submit">Reload</button>
+    </form>
 </body>
 </html>
