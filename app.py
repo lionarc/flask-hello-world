@@ -27,6 +27,9 @@ answers = [
     ["Popcorn", "Potato chips", "Nachos", "Chocolate", "Trail mix"],
     ["Pizza", "Mac and cheese", "Fried chicken", "Grilled cheese", "Pasta"]
 ]
+@app.route('/')
+def start_screen():
+    return render_template('start_screen.html')
 # Routes for Person 1 and Person 2
 @app.route('/person1')
 def person1_form():
