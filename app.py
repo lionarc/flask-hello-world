@@ -30,17 +30,18 @@ answers = [
 @app.route('/')
 def start_screen():
     return render_template('start_screen.html')
+
 # Routes for Person 1 and Person 2
 @app.route('/person1')
 def person1_form():
-    if submission_status['person1']:
-        return redirect(url_for('result'))
+    # if submission_status['person1']:
+    #     return redirect(url_for('result'))
     return render_template('questionnaire.html', questions=questions, answers=answers, submit_route='/submit_person1')
 
 @app.route('/person2')
 def person2_form():
-    if submission_status['person2']:
-        return redirect(url_for('result'))
+    # if submission_status['person2']:
+    #     return redirect(url_for('result'))
     return render_template('questionnaire.html', questions=questions, answers=answers, submit_route='/submit_person2')
 
 @app.route('/submit_person1', methods=['POST'])
@@ -50,10 +51,10 @@ def submit_person1():
     person1_data = request.form.to_dict()
     submission_status['person1'] = True
     # Check if both persons have submitted data
-    if submission_status['person1'] and submission_status['person2']:
-        return redirect(url_for('result_person1', source='person1'))  # Redirect ∏o the result route
-    else:
-        return redirect(url_for('waiting_screen', source='person1'))   # Redirect to the waiting screen route
+    # if submission_status['person1'] and submission_status['person2']:
+    #     return redirect(url_for('result_person1', source='person1'))  # Redirect ∏o the result route
+    # else:
+    return redirect(url_for('waiting_screen', source='person1'))   # Redirect to the waiting screen route
 
 @app.route('/submit_person2', methods=['POST'])
 def submit_person2():
@@ -62,10 +63,10 @@ def submit_person2():
     person2_data = request.form.to_dict()
     submission_status['person2'] = True
     # Check if both persons have submitted data
-    if submission_status['person1'] and submission_status['person2']:
-        return redirect(url_for('result_person2', source='person2'))  # Redirect to the result route
-    else:
-        return redirect(url_for('waiting_screen', source='person2'))  # Redirect to the waiting screen route
+    # if submission_status['person1'] and submission_status['person2']:
+    #     return redirect(url_for('result_person2', source='person2'))  # Redirect to the result route
+    # else:
+    return redirect(url_for('waiting_screen', source='person2'))  # Redirect to the waiting screen route
 
 
 # Separate result routes for person 1 and person 2
@@ -98,20 +99,14 @@ def result_person2():
 @app.route('/waiting_screen')
 def waiting_screen():
     global submission_status
-
-    # Periodically check the submission status
-    while not (submission_status['person1'] and submission_status['person2']):
-        time.sleep(1)  # Check every second
-    
-    # Determine the source of the questionnaire
     source = request.args.get('source')
-
-    if source == 'person1':
-        return redirect(url_for('result_person1'))
-    elif source == 'person2':
-        return redirect(url_for('result_person2'))
-    else:
-        return render_template('questionnaire.html')
+    # Check if both persons have submitted their questionnaires
+    if submission_status['person1'] and submission_status['person2']:
+        if source == 'person1':
+            return redirect(url_for('result_person1'))
+        elif source == 'person2':
+            return redirect(url_for('result_person2'))
+    return render_template('waiting_screen.html')
 
 
 @app.route('/reset')
