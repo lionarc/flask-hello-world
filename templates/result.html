@@ -7,13 +7,24 @@
     <link rel="stylesheet" href="static/styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
-    <h2>Match Percentage: {{ match_percentage }}%</h2>
+    <div>
+        <h2>Wenn ihr eurer Ergebnis sehen und hören möchtet, dann berührt mit der einen Hand die Fläche und nehmt Hautkontakt zur anderen Person auf!</h2>
+    </div>
+    <div id="matchPercentage" style="display: none;">
+        <h2>Match Percentage: {{ match_percentage }}%</h2>
+    </div>
     <p>{{ result }}</p>
+    <div id="matching-answers" style="display: none;">
+        <h3>Das verbindet euch:</h3>
+        {% for question, answer in matched_answers.items() %}
+            <p><strong>{{ question }}:</strong> {{ answer }}</p>
+        {% endfor %}
+    </div>
     <input type="password" id="hiddenInput" style="opacity: 0; position: absolute; top: -9999px;">
     <!-- Button to refresh the process and clear stored data -->
     <form action="{{ url_for('reset') }}" method="get">
         <input type="hidden" name="source" value="{{ source }}">
-        <button type="submit">Refresh</button>
+        <button type="submit">Daten löschen und zum Start</button>
     </form>
     <script>
         // Add your JavaScript code for the result page here
@@ -23,17 +34,21 @@
         function playAudio() {
             audio.play();
             isPlaying = true;
+            document.getElementById('matchPercentage').style.display = 'block';
+            document.getElementById('matching-answers').style.display = 'block'; // Show match percentage
         }
 
         function stopAudio() {
             audio.pause();
             audio.currentTime = 0;
             isPlaying = false;
+            document.getElementById('matchPercentage').style.display = 'none';
+            document.getElementById('matching-answers').style.display = 'none'; // Hide match percentage
         }
 
         // Event listener for key press
         document.addEventListener("keydown", function(event) {
-            // Check if the pressed key is "p" and the audio is not already playing
+            // Check if the pressed key is "a" and the audio is not already playing
             if (event.key === "a" && !isPlaying) {
                 playAudio();
             }
@@ -41,18 +56,16 @@
 
         // Event listener for key release
         document.addEventListener("keyup", function(event) {
-            // Check if the released key is "p" and the audio is playing
+            // Check if the released key is "a" and the audio is playing
             if (event.key === "a" && isPlaying) {
                 stopAudio();
             }    
         });
 
-          // Focus on the hidden input field when the page is loaded
-          window.onload = function() {
+        // Focus on the hidden input field when the page is loaded
+        window.onload = function() {
             document.getElementById("hiddenInput").focus();
         };
     </script>
 </body>
 </html>
-
-

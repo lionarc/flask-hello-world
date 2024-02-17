@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="static/styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
-    <h1>Questionnaire</h1>
+    <h1>Was ist euer Song? Beantwortet die Fragen und findet's raus!</h1>
     <form action="{{ submit_route }}" method="post">
         {% for question in questions %}
             <div class="question">
@@ -22,7 +22,7 @@
                 </div>
             </div>
         {% endfor %}
-        <button type="submit">Submit</button>
+        <button type="submit">Abschicken</button>
     </form>
 </body>
 </html>

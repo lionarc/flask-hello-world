@@ -1,11 +1,23 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #ffe6f2; /* Rosa background */
+    background-color: #891f7e; /* Rosa background */
 }
 
 h1 {
     text-align: center;
-    color: #ff69b4; /* Love theme color */
+    color: #ffafd7; /* Love theme color */
+}
+h2 {
+    text-align: center;
+    color: #ffafd7; /* Love theme color */
+}
+h3 {
+    text-align: left;
+    color: #ffafd7; /* Love theme color */
+}
+p {
+    text-align: left;
+    color: #ffafd7; /* Love theme color */
 }
 
 .question {
@@ -31,27 +43,28 @@ input[type="radio"] {
 }
 
 .answer-field {
-    background-color: #ffccff; /* Light rosa */
+    background-color: #fe88fe; /* Light rosa */
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ff69b4; /* Love theme color */
+    border: 1px solid #ff36ff; /* Love theme color */
     transition: background-color 0.3s ease;
 }
 
 .answer-label:hover .answer-field {
-    background-color: #ffb3d9; /* Darker rosa on hover */
+    background-color: #a53fa5; /* Darker rosa on hover */
 }
 
 input[type="radio"]:checked + .answer-field {
-    background-color: #ff99cc; /* Highlight color when selected */
+    background-color: #ff36ff; /* Highlight color when selected */
 }
 button[type="submit"] {
-    background: linear-gradient(45deg, #ff69b4 0%, #ff1493 100%);
-    color: white;
-    border: none;
-    padding: 10px 20px;
+    background: linear-gradient(45deg, #2801ab 0%, #7b0cb2 100%);
+    color: #ffafd7;
+    font: bold;
+    border-radius: 5px;
+    border: 5px solid #ff36ff;
+    padding: 10px;
     font-size: 16px;
-    border-radius: 50%;
     cursor: pointer;
     transition: background 0.3s ease;
     position: relative;
@@ -59,5 +72,13 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background: linear-gradient(45deg, #ff1493 0%, #ff69b4 100%);
+    background: linear-gradient(45deg, #ff36ff 0%, #fe88fe 100%);
+}
+
+.special-button {
+    background-color: #f0f0f0; /* Adjust background color */
+    color: #333; /* Adjust text color */
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 4px; /* Add border radius */
+    padding: 10px 20px; /* Add padding */
 }

@@ -14,18 +14,26 @@ submission_status = {
 
 # Define the questions
 questions = [
-    "What is your favorite meal of the day?",
-    "Which cuisine do you enjoy the most?",
-    "What is your preferred dessert?",
-    "Which snack do you crave the most?",
-    "What is your go-to comfort food?"
+    "Welche Mahlzeit genießt du am meisten?",
+    "Wie machst du am liebsten Urlaub?",
+    "Was ist dir bei Filmen wichtig?",
+    "Was machst du am liebsten draußen?",
+    "Was entspannt dich am meisten?",
+    "Auf welche Jahreszeit freust du dich am meisten?",
+    "Für welches Haustier würdest du dich entscheiden?",
+    "Was schätzt du am meisten in Beziehungen?",
+    "Welchen Snack kaufst du am häufigsten?"
 ]
 answers = [
-    ["Breakfast", "Brunch", "Lunch", "Dinner", "Late-night snack"],
-    ["Italian", "Mexican", "Japanese", "Indian", "American"],
-    ["Chocolate cake", "Ice cream", "Cheesecake", "Fruit tart", "Cookies"],
-    ["Popcorn", "Potato chips", "Nachos", "Chocolate", "Trail mix"],
-    ["Pizza", "Mac and cheese", "Fried chicken", "Grilled cheese", "Pasta"]
+    ["Frühstück", "Brunch", "Mittagessen", "Abendessen", "Late-Night-Snack"],
+    ["Strandurlaub", "Stadterkundung", "Abenteuerreise", "Kulturelles Eintauchen", "auf der eigenen Couch"],
+    ["viel Action & Spannung", "möglichst indpendent", "die meisten Oscars", "Bechdel-Test bestehen", "ist oder wird ein Klassiker"],
+    ["Wandern", "Fahrradfahren", "im Freien schlafen", "am See chillen", "Picknicken"],
+    ["Ein Buch lesen", "Musik hören", "Meditation", "Serien schauen", "Badewanne"],
+    ["Sommer", "Herbst", "Winter", "Frühling", "Ich liebe sie alle!"],
+    ["Hund", "Katze", "Schlange", "Aquarium voller Fische und Seetiere", "Schildkröte", "bloß kein Tier im Haus"],
+    ["gemeinsamer Humor", "Vertrauen", "Intimität", "ähnliche Interessen", "gegenseitige Unterstützung"],
+    ["Chips", "Schokolade", "Kekse", "Nüsse", "Obst"]
 ]
 # Define the songs and their paths
 songs = {
@@ -91,26 +99,30 @@ def submit_person2():
 @app.route('/result_person1')
 def result_person1():
     if submission_status['person1'] and submission_status['person2']:
-        match_percentage = calculate_match_percentage(person1_data, person2_data)
+        match_data = calculate_match_percentage(person1_data, person2_data)
+        match_percentage = match_data[0]
+        matched_answers = match_data[1]
         if match_percentage >= 50:
             result = "Congratulations! You have more than 50% in common!"
         else:
             result = "Sorry, you have less than 50% in common."
         
-        return render_template('result.html', person1_data=person1_data, person2_data=person2_data, match_percentage=match_percentage, song_path=get_song_path(match_percentage), source='person1')
+        return render_template('result.html', person1_data=person1_data, person2_data=person2_data, match_percentage=match_percentage, song_path=get_song_path(match_percentage), matched_answers=matched_answers, source='person1')
     else:
         return render_template('waiting_screen.html')
 
 @app.route('/result_person2')
 def result_person2():
     if submission_status['person1'] and submission_status['person2']:
-        match_percentage = calculate_match_percentage(person1_data, person2_data)
+        match_data = calculate_match_percentage(person1_data, person2_data)
+        match_percentage = match_data[0]
+        matched_answers = match_data[1]
         if match_percentage >= 50:
             result = "Congratulations! You have more than 50% in common!"
         else:
             result = "Sorry, you have less than 50% in common."
         
-        return render_template('result.html', person1_data=person1_data, person2_data=person2_data, match_percentage=match_percentage, song_path=get_song_path(match_percentage), source='person2')
+        return render_template('result.html', person1_data=person1_data, person2_data=person2_data, match_percentage=match_percentage, song_path=get_song_path(match_percentage), matched_answers=matched_answers, source='person2')
     else:
         return render_template('waiting_screen.html')
     
@@ -156,7 +168,15 @@ def reset():
 def calculate_match_percentage(person1_data, person2_data):
     total_questions = len(questions)
     match_count = sum(1 for q in questions if person1_data.get(q) == person2_data.get(q))
-    return (match_count / total_questions) * 100
+    match_percentage = (match_count / total_questions) * 100
+
+    # Find the matched answers
+    matched_answers = {}
+    for question in questions:
+        if person1_data.get(question) == person2_data.get(question):
+            matched_answers[question] = person1_data.get(question)
+
+    return match_percentage, matched_answers
 
 def get_song_path(match_percentage):
     if match_percentage >= 100:

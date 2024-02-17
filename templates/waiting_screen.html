@@ -5,29 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Waiting Screen</title>
     <link rel="stylesheet" href="static/styles.css"> <!-- Link to your CSS file -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
-        h2 {
-            color: #333;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
-        <h2>Waiting for the other person to submit their data...</h2>
+        <h2>Warte auf die andere Person...</h2>
+        <h3>Button öfters drücken, um zu checken, ob die andere Person auch abgeschickt hat!</h3>
     </div>
     <form action="{{ url_for('waiting_screen') }}" method="GET">
         <input type="hidden" name="source" value="{{ request.args.get('source') }}">
-        <button type="submit">Reload</button>
+        <button type="submit">Ergebnis anschauen!</button>
     </form>
+    <!-- <form action="{{ url_for('start_screen') }}" method="GET">
+        <button class="special-button" type="submit">Daten löschen und zum Start</button>
+    </form> -->
 </body>
 </html>
