@@ -37,11 +37,18 @@ answers = [
 ]
 # Define the songs and their paths
 songs = {
-    '100': "static/Die Eine.mp3",
-    '90': "static/Every Breath You Take.mp3",
-    '80': "static/Ben E King Stand By Me Lyrics.mp3",
-    '70': "static/Vom selben Stern Radio Edit.mp3",
-    '60': "static/Serge Gainsbourg & Jane Birkin - Je t'aime... moi non plus_Original videoclip (Fontana 1969).mp3",
+    '100': "static/Dilemma (Lyrics) - Nelly  ft. Kelly Rowland.mp3",
+    '90': "static/Kylie Minogue - Cant Get You Out Of My Head (Official Video).mp3",
+    '80': "static/Serge Gainsbourg & Jane Birkin - Je t'aime... moi non plus_Original videoclip (Fontana 1969).mp3",
+    '70': "static/John Paul Young - Love Is In The Air (1978).mp3",
+    '60': "static/Sinéad OConnor - Nothing Compares 2 U (Official Music Video) [HD].mp3",
+    '50': "static/Marianne Rosenberg Er gehrt zu mir.mp3",
+    '40': "static/Every Breath You Take.mp3",
+    '30': "static/wo bist du mein sonnenlicht grup tekkan.mp3",
+    '20': "static/Vom selben Stern Radio Edit.mp3",
+    '10': "static/Regen und Meer.mp3",
+    '1': "static/Creep - Radiohead (Lyrics).mp3",
+    '0': "static/game-over-arcade-6435.mp3",
     'default': "static/Tina Turner What s Love Got To Do With It Lyrics.mp3"
 }
 
@@ -189,8 +196,22 @@ def get_song_path(match_percentage):
         return songs['70']
     elif match_percentage >= 60:
         return songs['60']
+    elif match_percentage >= 50:
+        return songs['50']
+    elif match_percentage >= 40:
+        return songs['40']
+    elif match_percentage >= 30:
+        return songs['30']
+    elif match_percentage >= 20:
+        return songs['20']
+    elif match_percentage >= 10:
+        return songs['10']
+    elif match_percentage > 0:
+        return songs['1']
+    elif match_percentage == 0:
+        return songs['0']
     else:
-        return songs['default']
+        return songs['0']
 
 if __name__ == '__main__':
     # Run the Flask application
