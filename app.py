@@ -36,8 +36,17 @@ songs = {
     '60': "static/Serge Gainsbourg & Jane Birkin - Je t'aime... moi non plus_Original videoclip (Fontana 1969).mp3",
     'default': "static/Tina Turner What s Love Got To Do With It Lyrics.mp3"
 }
+
+reset_flag = False
+
 @app.route('/')
 def start_screen():
+    person1_data = {}
+    person2_data = {}
+    reset_flag = False
+    submission_status = {
+    'person1': False,
+    'person2': False}
     return render_template('start_screen.html')
 
 # Routes for Person 1 and Person 2
@@ -88,7 +97,7 @@ def result_person1():
         else:
             result = "Sorry, you have less than 50% in common."
         
-        return render_template('result.html', person1_data=person1_data, person2_data=person2_data, match_percentage=match_percentage, source='person1')
+        return render_template('result.html', person1_data=person1_data, person2_data=person2_data, match_percentage=match_percentage, song_path=get_song_path(match_percentage), source='person1')
     else:
         return render_template('waiting_screen.html')
 
@@ -107,28 +116,34 @@ def result_person2():
     
 @app.route('/waiting_screen')
 def waiting_screen():
-    global submission_status
+    global submission_status, reset_flag
     source = request.args.get('source')
+    print(reset_flag)
     # Check if both persons have submitted their questionnaires
-    if submission_status['person1'] and submission_status['person2']:
+    if submission_status['person1'] and submission_status['person2'] and not reset_flag:
         if source == 'person1':
             return redirect(url_for('result_person1'))
         elif source == 'person2':
             return redirect(url_for('result_person2'))
+    elif reset_flag: #not submission_status['person1'] and not submission_status['person2']:
+        return reset()
+        
     return render_template('waiting_screen.html')
 
 
 @app.route('/reset')
 def reset():
-    global person1_data, person2_data, submission_status
-
+    global person1_data, person2_data, submission_status, reset_flag
+    source = request.args.get('source') 
+    reset_flag = not reset_flag  # Toggle the reset flag
     # Reset the data and submission status
-    person1_data = {}
-    person2_data = {}
-    submission_status = {'person1': False, 'person2': False}
+    if source == 'person1':
+        person1_data = {}
+        submission_status['person1'] = False
+    elif source == 'person2':
+        person2_data = {}
+        submission_status['person2'] = False
 
-    # Retrieve the 'person' parameter from the query string
-    source = request.args.get('source')
     if source == 'person1':
         return redirect(url_for('person1_form'))
     elif source == 'person2':
